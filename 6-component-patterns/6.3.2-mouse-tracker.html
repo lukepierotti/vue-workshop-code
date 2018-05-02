@@ -1,0 +1,41 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+<style>
+.mouse {
+  position: fixed;
+  background: red;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  transform: translate(-50%, -50%);
+}
+</style>
+
+<div id="app">
+  <mouse-tracker>
+    <div class='mouse' slot-scope="{x, y}" :style="{left: x+'px', top: y+'px' }"></div>
+  </mouse-tracker>
+</div>
+
+<script>
+Vue.component('mouse-tracker', {
+  data: function(){
+    return {
+      x: 0,
+      y: 0
+    }
+  },
+  created() {
+    window.addEventListener('mousemove', event => {
+      this.x = event.clientX
+      this.y = event.clientY
+    })
+  },
+  render(h) {
+    return this.$scopedSlots.default({x:this.x, y:this.y})
+  }
+})
+
+new Vue({
+  el: '#app'
+})
+</script>

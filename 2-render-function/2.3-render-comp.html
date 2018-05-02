@@ -1,0 +1,42 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+
+<div id="app">
+  <example :ok="ok"></example>
+</div>
+
+<script>
+const Foo = {
+  render(h) {
+    return h('div', 'foo')
+  }
+}
+
+const Bar = {
+  render(h) {
+    return h('div', 'bar')
+  }
+}
+
+Vue.component('example', {
+  props: ['ok'],
+  render(h) {
+    return this.ok ? h(Foo) : h(Bar)
+  }
+})
+
+new Vue({
+  el: '#app',
+  data: function() {
+    return {
+      ok: true
+    }
+  },
+  render(h) {
+    return h('div', {attrs:{id:'app'}}, [
+      // access it as a string because the component nmame was registered globally 
+      h('example', {props: {ok: this.ok}}),
+      h('button', {on: {click: () => {this.ok = !this.ok}}})
+    ])
+  }
+})
+</script>

@@ -1,0 +1,30 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+
+<div id="app">
+  <make-it-red>
+    <h1>{{ foo }}</h1>
+  </make-it-red>
+</div>
+
+<script>
+Vue.component('make-it-red', {
+  render(h) {
+    const vnode = this.$slots.default
+    if (!vnode.data) {
+      vnode.data = {}
+    }
+    if(!vnode.data.style) {
+      vnode.data.style = {}
+    }
+    vnode.data.style = {color: 'red'}
+    return h(vnode)
+  }
+})
+
+new Vue({
+  el: '#app',
+  data: {
+    foo: 'bar'
+  }
+})
+</script>

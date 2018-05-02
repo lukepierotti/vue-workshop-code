@@ -1,0 +1,38 @@
+<script>
+function convert (obj) {
+  // iterating over the keys in the object
+  // store the value so that it can be referenced in the getter and setter
+  // if not then there will be an infinte loop of calling getter
+  var keys = Object.keys(obj)
+  keys.forEach((key, ind) => {
+    let value = obj[key];
+    Object.defineProperty(obj, key, {
+      get() {
+        console.log(`getting key "${key}": ${value}`);
+        return value
+      },
+      set(newValue) {
+        console.log(`setting key "${key}" to: ${newValue}`);
+        value = newValue;
+      }
+    })
+  })
+  return obj
+
+  // iterating over the whole object
+  // for (var key in obj) {
+  //   let value = obj[key]
+  //   Object.defineProperty(obj, key, {
+  //     get() {
+  //       console.log(`getting key "${key}": ${value}`);
+  //       return value;
+  //     },
+  //     set(newValue) {
+  //       console.log(`setting key "${key}" to: ${newValue}`);
+  //       value = newValue
+  //     }
+  //   })
+  // }
+  // return obj
+}
+</script>

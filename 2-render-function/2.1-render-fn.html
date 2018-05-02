@@ -1,0 +1,38 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+<style>
+#welcome.red {
+  color: red;
+}
+</style>
+
+<div id="app">
+  <h1 id="welcome" :class="{ red: isRed }">{{ msg }}</h1>
+  <button @click="isRed = !isRed">toggle red</button>
+</div>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    isRed: true,
+    msg: 'This should be red'
+  },
+  render (h) {
+    return h('div', { attrs: { id:'app'}}, [
+      h('h1', {
+        attrs: {
+          id: 'welcome'
+        },
+        class: {
+          red: this.isRed
+        }
+      },this.msg),
+      h('button', {
+        on: {
+          click: () => {this.isRed = !this.isRed}
+        }
+      }, 'toggle red' // <-- this could be an array and that array could be an array of arrays mimmicking <template></template> tags
+    )])
+  }
+})
+</script>

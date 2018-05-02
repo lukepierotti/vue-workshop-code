@@ -1,0 +1,33 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+
+<div id="app">
+  <big-button>I am big</big-button>
+  <red-button>I am red</red-button>
+  <base-button big color="red">I am big and red</base-button>
+</div>
+
+<script>
+Vue.component('base-button', {
+  props: ['color', 'big'],
+  template: `
+    <button :style="{
+      fontSize: big ? '1.5em' : 'inherit',
+      color: color : 'inherit'
+    }"><slot/></button>`
+})
+
+Vue.component('big-button', { // fontSize='1.5em'
+  template: `<base-button big><slot/></base-button>`
+})
+
+Vue.component('red-button', { // color: red
+  template: `<base-button color='red'><slot/></base-button>`
+})
+// factory function
+function createButtonWithColor(color) {
+  return `<base-button color='${color}'><slot/></base-button>`
+}
+const app = new Vue({
+  el: '#app'
+})
+</script>

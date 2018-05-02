@@ -1,0 +1,51 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+<style>
+.list {
+  border: 1px solid #eee;
+  padding: 1rem 2rem;
+}
+.bold {
+  font-weight: bold;
+}
+.red {
+  color: red;
+}
+</style>
+
+<div id="app">
+  <infinite-list :items='items'>
+    <template scoped-slot='item'>
+      <div>
+        {{item.text}}
+      </div>
+    </template>
+  </infinite-list>
+</div>
+
+<script>
+
+const MyAwesomeList = {
+  // Implement this
+}
+Vue.component('infinite-list', {
+  render(h) {
+    return h('ul', this.items.map(item => {
+      return h('li', [this.scopedSlots.default({item})])
+    }))
+  }
+})
+new Vue({
+  el: '#app',
+  components: {
+    MyAwesomeList
+  },
+  data: function() {
+    return {
+      items: [
+        {text: 'something'},
+        {text: 'something else'}
+      ]
+    }
+  }
+})
+</script>

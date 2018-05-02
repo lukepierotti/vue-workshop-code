@@ -1,0 +1,36 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex"></script>
+
+<div id="app">
+  <store-consumer>
+    <div slot-scope="{ state, getters }">
+      <p>Foo is: {{ state.foo }}</p>
+      <p>Bar is: {{ getters.bar }}</p>
+    </div>
+  </store-consumer>
+</div>
+
+<script>
+Vue.component('store-consumer', {
+  render(h) {
+    return this.$scopedSlots.default(this.$store)
+    return this.$scopedSlots.default({state: this.$store.state, getters: this.$store.getters})
+  }
+})
+
+const store = new Vuex.Store({
+  state: {
+    foo: 'This is foo'
+  },
+  getters: {
+    bar () {
+      return 'This is bar'
+    }
+  }
+})
+
+const app = new Vue({
+  el: '#app',
+  store
+})
+</script>

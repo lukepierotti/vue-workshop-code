@@ -1,0 +1,21 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+
+<div id="app">
+  <example :tags="['h1', 'h2', 'h3']"></example>
+</div>
+
+<script>
+// Operates the same way that the <component :is=''> tag</component>
+Vue.component('example', {
+  props: ['tags'],
+  render: function(h) {
+    return h('div',
+      this.tags.map((tag, ind) => {
+        return h(tag, ind)
+      })
+    )
+  }
+})
+
+new Vue({ el: '#app' })
+</script>

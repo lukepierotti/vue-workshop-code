@@ -1,0 +1,44 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex"></script>
+
+<div id="app"></div>
+
+<script>
+function connect (connector) {
+  return function(component) {
+    return new Vue({
+      render(h) {return h(component, {props: connector(this.$store)})}
+    })
+  }
+}
+
+const Component = {
+  props: ['foo', 'bar'],
+  template: `<div>
+    <p>Foo is: {{ foo }}</p>
+    <p>Bar is: {{ bar }}</p>
+  </div>`
+}
+
+const ConnectedComponent = connect(store => ({
+  foo: store.state.foo,
+  bar: store.getters.bar
+}))(Component)
+
+const store = new Vuex.Store({
+  state: {
+    foo: 'This is foo'
+  },
+  getters: {
+    bar () {
+      return 'This is bar'
+    }
+  }
+})
+
+const app = new Vue({
+  el: '#app',
+  store,
+  render: h => h(ConnectedComponent)
+})
+</script>
