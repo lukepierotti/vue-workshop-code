@@ -1,22 +1,29 @@
 <script src="../node_modules/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vuex"></script>
 
-<div id="app">
-  <store-consumer>
-    <div slot-scope="{ state, getters }">
-      <p>Foo is: {{ state.foo }}</p>
-      <p>Bar is: {{ getters.bar }}</p>
-    </div>
-  </store-consumer>
-</div>
+<div id="app"></div>
 
 <script>
 Vue.component('store-consumer', {
-  render(h) {
-    return this.$scopedSlots.default(this.$store)
-    return this.$scopedSlots.default({state: this.$store.state, getters: this.$store.getters})
+  functional: true,
+  render (h, { data, parent }) {
+    return data.scopedSlots.default(parent.$store)
   }
 })
+
+const Component = {
+  props: ['foo', 'bar'],
+  template: `
+    <div>
+      <store-consumer>
+        <div slot-scope="{ state, getters }">
+          <p>Foo is: {{ state.foo }}</p>
+          <p>Bar is: {{ getters.bar }}</p>
+        </div>
+      </store-consumer>
+    </div>
+  `
+}
 
 const store = new Vuex.Store({
   state: {
@@ -31,6 +38,7 @@ const store = new Vuex.Store({
 
 const app = new Vue({
   el: '#app',
-  store
+  store,
+  render: h => h(Component)
 })
 </script>

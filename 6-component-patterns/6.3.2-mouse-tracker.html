@@ -12,26 +12,34 @@
 
 <div id="app">
   <mouse-tracker>
-    <div class='mouse' slot-scope="{x, y}" :style="{left: x+'px', top: y+'px' }"></div>
+    <template slot-scope="{ x, y }">
+      <p>Mouse is at: {{ x }}, {{ y }}</p>
+    </template>
+  </mouse-tracker>
+
+  <mouse-tracker>
+    <template slot-scope="{ x, y }">
+      <div class="mouse" :style="{ left: `${x}px`, top: `${y}px` }"></div>
+    </template>
   </mouse-tracker>
 </div>
 
 <script>
 Vue.component('mouse-tracker', {
-  data: function(){
-    return {
-      x: 0,
-      y: 0
-    }
+  data () {
+    return { x: 0, y: 0 }
   },
-  created() {
-    window.addEventListener('mousemove', event => {
-      this.x = event.clientX
-      this.y = event.clientY
+  mounted () {
+    window.addEventListener('mousemove', e => {
+      this.x = e.clientX
+      this.y = e.clientY
     })
   },
-  render(h) {
-    return this.$scopedSlots.default({x:this.x, y:this.y})
+  render () {
+    return this.$scopedSlots.default({
+      x: this.x,
+      y: this.y
+    })[0]
   }
 })
 

@@ -8,16 +8,15 @@
 </div>
 
 <script>
+// Implement a createStore function that allows the following usage.
 function createStore ({ state, mutations }) {
   return new Vue({
     data: {
       state
     },
     methods: {
-      ...mutations,
-      commit: function(mutation) {
-        const mutation = mutations[mutation]
-        mutation(state)
+      commit (mutationName) {
+        mutations[mutationName](state)
       }
     }
   })

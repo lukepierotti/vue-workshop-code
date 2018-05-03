@@ -13,39 +13,43 @@
 </style>
 
 <div id="app">
-  <infinite-list :items='items'>
-    <template scoped-slot='item'>
-      <div>
-        {{item.text}}
-      </div>
+  <h2>Bold List</h2>
+  <hr>
+  <my-awesome-list>
+    <template slot-scope="{ item }">
+      <strong>{{ item.text }}</strong>
     </template>
-  </infinite-list>
+  </my-awesome-list>
+
+  <h2>Red List</h2>
+  <hr>
+  <my-awesome-list>
+    <template slot-scope="{ item }">
+      <span class="red">{{ item.text }}</span>
+    </template>
+  </my-awesome-list>
 </div>
 
 <script>
-
 const MyAwesomeList = {
-  // Implement this
+  data: () => ({
+    list: [
+      { text: 'Hello' }
+    ]
+  }),
+  template: `
+    <ul class="list">
+      <li v-for="item in list">
+        <slot :item="item"/>
+      </li>
+    </ul>
+  `
 }
-Vue.component('infinite-list', {
-  render(h) {
-    return h('ul', this.items.map(item => {
-      return h('li', [this.scopedSlots.default({item})])
-    }))
-  }
-})
+
 new Vue({
   el: '#app',
   components: {
     MyAwesomeList
-  },
-  data: function() {
-    return {
-      items: [
-        {text: 'something'},
-        {text: 'something else'}
-      ]
-    }
   }
 })
 </script>

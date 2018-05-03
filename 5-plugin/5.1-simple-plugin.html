@@ -1,24 +1,8 @@
 <script src="../node_modules/vue/dist/vue.js"></script>
 
 <script>
-const RulesPlugin = function(){
-  Vue.mixin({
-    created() {
-      if (this.$options.rules) {
-        var rules = this.$options.rules
-
-        Object.keys(rules).forEach(rule => {
-          const value = this[rule]
-          const {validate, message } = rules[rule]
-          this.$watch(rule, (newValue) => {
-            if (!validate(newValue)) {
-              console.log(message);
-            }
-          }, {immediate: true})
-        })
-      }
-    }
-  })
+const RulesPlugin = {
+  // Implement this!
 }
 
 Vue.use(RulesPlugin)

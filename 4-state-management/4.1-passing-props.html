@@ -15,6 +15,12 @@ new Vue({
   el: '#app',
   data: {
     count: 0
+  },
+  components: {
+    counter: {
+      props: ['count'],
+      template: `<div>{{ count }}</div>`
+    }
   }
 })
 </script>

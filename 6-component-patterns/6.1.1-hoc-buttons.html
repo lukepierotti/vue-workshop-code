@@ -8,25 +8,24 @@
 
 <script>
 Vue.component('base-button', {
-  props: ['color', 'big'],
-  template: `
-    <button :style="{
-      fontSize: big ? '1.5em' : 'inherit',
-      color: color : 'inherit'
-    }"><slot/></button>`
+  props: {
+    big: Boolean,
+    color: String
+  },
+  template: `<button :style="{
+    fontSize: big ? '1.5em' : '1em',
+    color: color || 'inherit'
+  }"><slot/></button>`
 })
 
-Vue.component('big-button', { // fontSize='1.5em'
+Vue.component('big-button', {
   template: `<base-button big><slot/></base-button>`
 })
 
-Vue.component('red-button', { // color: red
-  template: `<base-button color='red'><slot/></base-button>`
+Vue.component('red-button', {
+  template: `<base-button color="red"><slot/></base-button>`
 })
-// factory function
-function createButtonWithColor(color) {
-  return `<base-button color='${color}'><slot/></base-button>`
-}
+
 const app = new Vue({
   el: '#app'
 })

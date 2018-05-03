@@ -4,7 +4,18 @@
 
 <script>
 function createApp ({ el, model, view, actions }) {
-  // Implement this!
+  Object.keys(actions).forEach(key => {
+    const rawAction = actions[key]
+    actions[key] = (...payload) => {
+      app.model = rawAction(app.model, actions, ...payload)
+    }
+  })
+  const app = new Vue({
+    data: { model },
+    render (h) {
+      return view(h, this.model, actions)
+    }
+  }).$mount(el)
 }
 
 // voila

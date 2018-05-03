@@ -4,13 +4,11 @@
 <div id="app"></div>
 
 <script>
-function connect (connector) {
-  return function(component) {
-    return new Vue({
-      render(h) {return h(component, {props: connector(this.$store)})}
-    })
+const connect = connector => Component => ({
+  render (h) {
+    return h(Component, { props: connector(this.$store) })
   }
-}
+})
 
 const Component = {
   props: ['foo', 'bar'],

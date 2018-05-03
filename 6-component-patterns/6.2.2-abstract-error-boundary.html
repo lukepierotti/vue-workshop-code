@@ -1,37 +1,31 @@
 <script src="https://unpkg.com/vue@2.5.17-beta.0"></script>
 
 <div id="app">
-  <error-boundary label="some label">
+  <error-boundary>
     <foo></foo>
   </error-boundary>
 </div>
 
 <script>
-// only will capture errors in life cycle hooks
-// appliest to all components in the tree below the component applied to it
 Vue.component('error-boundary', {
-  props: {
-    label: String //use the label for more information on where the error occurred
-  }
-  data: function() {
+  data () {
     return {
-      error: ''
+      error: null
     }
   },
-  errorCaptured(err) {
-    this.error = err.stack
-    if (process.env.NODE_ENV === 'production') {
-      // send info to analytic services
-    }
+  errorCaptured (err, vm, info) {
+    this.error = err.message
     return false
   },
-  render(h) {
-    const vnode = this.$slots.default[0];
+  render (h) {
     if (this.error) {
-      return h('pre',this.error)
-    } else {
-      return vnode
+      return h(
+        'pre',
+        { style: { color: 'red' }},
+        `error from children: ${this.error}`
+      )
     }
+    return this.$slots.default[0]
   }
 })
 

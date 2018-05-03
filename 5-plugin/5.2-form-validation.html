@@ -18,47 +18,30 @@
 
 <script>
 const validationPlugin = {
-  install(Vue) {
+  install (Vue) {
     Vue.mixin({
-      beforeCreate() {
-        if (this.$options.validations) {
-          const validations = this.$options.validations
-          this.$computed('errors', {
-            return []
-          })
-
-          Object.keys(validations).forEach(key => {
-            let value = this[key]
-            let {validate, message} = validations[key]
-            this.$watch(key, newValue => {
-              if (!validate(newValue)) {
-                this.errors.push(message(key, newValue))
-              }
-            })
-          })
-        }
-      }
-
       computed: {
-        $v() {
-          const validations = this.$options.validations
-          if (validations) {
-            let valid = true
-            let errors = []
+        $v () {
+          let valid = true
+          const errors = []
 
-            Object.keys(validations).forEach(key => {
-              let value = this[key]
-              let {validate, message} = validations[key]
-              const result = validate(value)
+          const schema = this.$options.validations
+          if (schema) {
+            Object.keys(schema).forEach(key => {
+              const value = this[key]
+              const validateFn = schema[key].validate
+              const result = validateFn(value)
+
               if (!result) {
                 valid = false
-                errors.push(message, value)
+                errors.push(schema[key].message(key, value))
               }
             })
-            return {
-              valid,
-              errors
-            }
+          }
+
+          return {
+            valid,
+            errors
           }
         }
       }

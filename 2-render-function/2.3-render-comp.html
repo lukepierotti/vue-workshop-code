@@ -2,41 +2,31 @@
 
 <div id="app">
   <example :ok="ok"></example>
+  <button @click="ok = !ok">toggle</button>
 </div>
 
 <script>
 const Foo = {
-  render(h) {
+  render (h) {
     return h('div', 'foo')
   }
 }
 
 const Bar = {
-  render(h) {
+  render (h) {
     return h('div', 'bar')
   }
 }
 
 Vue.component('example', {
   props: ['ok'],
-  render(h) {
-    return this.ok ? h(Foo) : h(Bar)
+  render (h) {
+    return h(this.ok ? Foo : Bar)
   }
 })
 
 new Vue({
   el: '#app',
-  data: function() {
-    return {
-      ok: true
-    }
-  },
-  render(h) {
-    return h('div', {attrs:{id:'app'}}, [
-      // access it as a string because the component nmame was registered globally 
-      h('example', {props: {ok: this.ok}}),
-      h('button', {on: {click: () => {this.ok = !this.ok}}})
-    ])
-  }
+  data: { ok: true }
 })
 </script>

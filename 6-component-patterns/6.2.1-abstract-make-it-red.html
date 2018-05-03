@@ -8,16 +8,11 @@
 
 <script>
 Vue.component('make-it-red', {
-  render(h) {
-    const vnode = this.$slots.default
-    if (!vnode.data) {
-      vnode.data = {}
-    }
-    if(!vnode.data.style) {
-      vnode.data.style = {}
-    }
-    vnode.data.style = {color: 'red'}
-    return h(vnode)
+  render (h) {
+    const vnode = this.$slots.default[0]
+    if (!vnode.data) vnode.data = {}
+    vnode.data.style = { color: 'red' }
+    return vnode
   }
 })
 
